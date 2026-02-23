@@ -1,998 +1,322 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>shr-gbl — Boutique</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shr-gbl Boutique</title>
 
 <style>
-:root{
---pink:#ff4fa3;
---pink2:#ff86c6;
---bg1:#fff0f8;
---bg2:#ffe2f1;
---ink:#2b1030;
---muted:#6b3f6e;
---card:rgba(255,255,255,.92);
---shadow:0 18px 55px rgba(0,0,0,.14);
---r:20px;
---b:rgba(255,79,163,.20);
-}
-
-*{box-sizing:border-box}
 body{
 margin:0;
-font-family:Arial, sans-serif;
-color:var(--ink);
-min-height:100vh;
-background:
-radial-gradient(circle at 20% 18%, rgba(255,79,163,.22), transparent 58%),
-radial-gradient(circle at 80% 12%, rgba(255,134,198,.22), transparent 60%),
-radial-gradient(circle at 50% 90%, rgba(191,230,255,.22), transparent 60%),
-linear-gradient(180deg,var(--bg1),var(--bg2));
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#fff0f8,#ffe2f1);
 }
 
-.wrap{width:95%;max-width:1200px;margin:30px auto 120px;}
-h1{margin:0;font-size:34px;letter-spacing:.2px}
-.sub{margin-top:7px;color:var(--muted);line-height:1.35}
+.container{
+width:95%;
+max-width:1200px;
+margin:30px auto 120px;
+}
 
-.grid{display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-top:18px;align-items:start;}
-@media (max-width:900px){ .grid{grid-template-columns:1fr;} }
+h1{margin:0;font-size:32px;color:#b0005f}
+
+.sub{color:#6b3f6e;margin-top:5px}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 2fr;
+gap:20px;
+margin-top:20px;
+}
+@media(max-width:900px){
+.grid{grid-template-columns:1fr;}
+}
 
 .card{
-background:var(--card);
-border:1px solid var(--b);
+background:white;
 padding:20px;
-border-radius:var(--r);
-box-shadow:var(--shadow);
-backdrop-filter: blur(6px);
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.1);
 }
-
-.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.row > *{flex:1;min-width:160px}
-
-input, textarea, select{
-width:100%;
-padding:10px 12px;
-border-radius:14px;
-border:1px solid rgba(0,0,0,.10);
-outline:none;
-font-family:inherit;
-background:rgba(255,255,255,.96);
-}
-textarea{min-height:95px;resize:vertical}
 
 button{
 padding:10px 15px;
 border:none;
-border-radius:14px;
+border-radius:12px;
 cursor:pointer;
-font-weight:900;
+font-weight:bold;
 }
+
 .btn{
-background:linear-gradient(90deg,var(--pink),var(--pink2));
+background:linear-gradient(90deg,#ff4fa3,#ff86c6);
 color:white;
-box-shadow: 0 10px 26px rgba(255,79,163,.18);
 }
-.btn:hover{transform:translateY(-1px);filter:brightness(.99)}
+
 .btn-outline{
 background:white;
-border:2px solid var(--pink);
-color:var(--pink);
-box-shadow:none;
+border:2px solid #ff4fa3;
+color:#ff4fa3;
 }
-.btn-danger{
-background:linear-gradient(90deg,#ff5b5b,#ff9a9a);
-color:#240909;
-}
-
-.pill{
-display:inline-block;
-padding:8px 12px;
-border-radius:999px;
-background:rgba(255,79,163,.10);
-border:1px solid rgba(255,79,163,.22);
-color:#7a1451;
-font-weight:900;
-font-size:12px;
-}
-
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.filters input,.filters select{flex:1;min-width:200px}
 
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:15px;
-margin-top:14px;
+margin-top:15px;
 }
+
 .product{
 background:white;
 border-radius:18px;
 overflow:hidden;
-box-shadow:0 12px 36px rgba(0,0,0,.10);
-display:flex;
-flex-direction:column;
-border:1px solid rgba(255,79,163,.12);
+box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
-.imgBox{
+
+.product img{
 width:100%;
 height:220px;
-background:#f7f2f6;
-display:flex;
-align-items:center;
-justify-content:center;
-color:var(--muted);
-font-weight:900;
-position:relative;
+object-fit:cover;
 }
-.product img{width:100%;height:220px;object-fit:cover;display:block}
-.badgePhotos{
-position:absolute;
-right:10px; bottom:10px;
-background:rgba(255,255,255,.90);
-border:1px solid rgba(255,79,163,.25);
-color:#7a1451;
-padding:6px 10px;
-border-radius:999px;
-font-size:12px;
-font-weight:900;
+
+.product-body{
+padding:15px;
 }
-.product-body{padding:15px;display:flex;flex-direction:column;gap:8px;flex:1}
-.price{color:#b0005f;font-weight:900}
-.meta{color:var(--muted);font-size:12px}
-.small{font-size:12px;color:var(--muted)}
-.hint{
-margin-top:10px;
-padding:12px;
-border-radius:16px;
-border:1px solid rgba(255,79,163,.18);
-background:linear-gradient(90deg, rgba(255,79,163,.10), rgba(191,230,255,.12));
-color:rgba(43,16,48,.92);
-font-size:13px;
-line-height:1.35;
+
+.price{
+color:#b0005f;
+font-weight:bold;
 }
 
 .admin-btn{
-position:fixed;bottom:15px;right:15px;
-background:white;border:1px solid var(--b);
-padding:10px 15px;border-radius:50px;
-cursor:pointer;box-shadow:var(--shadow);
-z-index:30;
+position:fixed;
+bottom:15px;
+right:15px;
+background:white;
+border:1px solid #ff4fa3;
+padding:10px 15px;
+border-radius:50px;
+cursor:pointer;
 }
 
 .modal{
-position:fixed;inset:0;background:rgba(0,0,0,.5);
-display:flex;align-items:center;justify-content:center;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+display:flex;
+align-items:center;
+justify-content:center;
 padding:16px;
-z-index:50;
+overflow:hidden;
 }
-.hidden{display:none;}
+
 .modal-content{
 background:white;
 padding:22px;
 border-radius:20px;
 width:100%;
-max-width:980px;
-box-shadow:0 20px 60px rgba(0,0,0,.22);
+max-width:900px;
+max-height:90vh;
+overflow-y:auto;
 }
-.modal-head{
-display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;
+
+.hidden{display:none;}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:12px;
+border:1px solid #ddd;
 }
+textarea{min-height:80px;}
 
 table{
 width:100%;
+margin-top:15px;
 border-collapse:collapse;
-margin-top:12px;
-overflow:hidden;
-border-radius:14px;
-border:1px solid rgba(0,0,0,.08);
 }
-th, td{
-padding:10px;
-border-bottom:1px solid rgba(0,0,0,.06);
-text-align:left;
-vertical-align:top;
+th,td{
+padding:8px;
+border-bottom:1px solid #eee;
 font-size:13px;
 }
-th{background:rgba(255,79,163,.08);color:var(--ink);font-weight:900}
-tr:last-child td{border-bottom:none}
-.rowBtns{display:flex;gap:8px;flex-wrap:wrap}
-
-/* Galerie preview admin */
-.thumbs{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:10px;
-}
-.thumb{
-width:92px;height:92px;
-border-radius:16px;
-border:1px solid rgba(0,0,0,.10);
-overflow:hidden;
-position:relative;
-background:#f7f2f6;
-cursor:pointer;
-}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb .x{
-position:absolute; top:6px; right:6px;
-background:rgba(255,255,255,.92);
-border:1px solid rgba(255,79,163,.22);
-color:#7a1451;
-width:22px;height:22px;
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-weight:900;
-font-size:12px;
-}
-.thumb .tag{
-position:absolute; left:6px; bottom:6px;
-background:rgba(255,255,255,.92);
-border:1px solid rgba(0,0,0,.08);
-padding:3px 7px;
-border-radius:999px;
-font-size:11px;
-font-weight:900;
-color:rgba(43,16,48,.85);
-}
-
-/* Modal galerie produit */
-.galleryBox{
-max-width:880px;
-}
-.galleryMain{
-width:100%;
-height:min(70vh,520px);
-background:#f7f2f6;
-border-radius:18px;
-border:1px solid rgba(0,0,0,.08);
-overflow:hidden;
-display:flex;align-items:center;justify-content:center;
-margin-bottom:12px;
-}
-.galleryMain img{width:100%;height:100%;object-fit:contain;background:#fff}
-.galleryStrip{
-display:flex;gap:10px;flex-wrap:wrap;
-}
-.gThumb{
-width:86px;height:86px;border-radius:16px;overflow:hidden;
-border:2px solid transparent;
-background:#f7f2f6;
-cursor:pointer;
-}
-.gThumb.active{border-color: var(--pink)}
-.gThumb img{width:100%;height:100%;object-fit:cover;display:block}
 </style>
 
-<!-- Firebase compat (HTML simple) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 
 <body>
-<div class="wrap">
+
+<div class="container">
 <h1>shr-gbl</h1>
 <p class="sub">
-Boutique de vêtements • Prix en <b>DZD</b> • <b>Pas d’achat en ligne</b> (contactez-nous pour infos / réservation).<br>
-🚚 Livraison disponible à <b>Ouled Rechache</b> et dans les villes proches.
+Boutique de vêtements • Prix en DZD<br>
+🚚 Livraison disponible à Ouled Rechache
 </p>
 
 <div class="grid">
-<!-- CONTACT -->
+
 <div class="card">
-<h3 style="margin:0 0 10px;">Contact</h3>
-<div class="controls">
-<button class="btn" type="button" onclick="openWhatsApp()">📲 Ouvrir WhatsApp</button>
-<button class="btn-outline" type="button" onclick="sendEmail()">✉️ Envoyer un Email</button>
+<h3>Contact</h3>
+<button class="btn" onclick="openWhatsApp()">📲 Ouvrir WhatsApp</button>
+<button class="btn-outline" onclick="sendEmail()">✉️ Envoyer un Email</button>
 </div>
 
-<div class="hint">
-✅ Le numéro n’est pas affiché : les clients cliquent juste sur WhatsApp / Email.<br>
-❌ Aucun achat en ligne.
-</div>
-
-<div style="margin-top:12px;">
-<span class="pill" id="countPill">0 article(s)</span>
-</div>
-</div>
-
-<!-- CATALOGUE -->
 <div class="card">
-<div class="row" style="align-items:flex-start;">
-<div style="min-width:220px;">
-<h3 style="margin:0 0 6px;">Catalogue</h3>
-<div class="small">Recherche + filtres (catégorie / taille) + tri par prix</div>
+<h3>Catalogue</h3>
+<div class="products" id="products">Chargement...</div>
 </div>
-<div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-<button class="btn-outline" type="button" onclick="resetFilters()">Réinitialiser</button>
+
 </div>
 </div>
 
-<div class="filters">
-<input id="search" type="text" placeholder="Rechercher (nom, description, référence)..." />
-<select id="cat"><option value="all">Toutes catégories</option></select>
-<select id="size"><option value="all">Toutes tailles</option></select>
-<select id="sort">
-<option value="new">Nouveautés</option>
-<option value="priceAsc">Prix (croissant)</option>
-<option value="priceDesc">Prix (décroissant)</option>
-</select>
-</div>
+<button class="admin-btn" onclick="openAdmin()">🔐 Admin</button>
 
-<div class="products" id="products">Chargement…</div>
-</div>
-</div>
-</div>
-
-<button class="admin-btn" type="button" onclick="openAdminLogin()">🔐 Admin</button>
-
-<!-- ADMIN LOGIN -->
-<div class="modal hidden" id="adminLoginModal">
-<div class="modal-content" style="max-width:420px;">
-<div class="modal-head">
-<h3 style="margin:0;">Connexion Admin</h3>
-<button class="btn-outline" type="button" onclick="closeAdminLogin()">Fermer</button>
-</div>
-<input type="password" id="adminPass" placeholder="Mot de passe admin" />
-<div style="height:10px;"></div>
-<button class="btn" type="button" onclick="loginAdmin()">Connexion</button>
-<div class="small" style="margin-top:10px;">
-Astuce : si ça ne marche pas, vérifie les règles Firebase (write).
-</div>
-</div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div class="modal hidden" id="adminPanelModal">
+<div class="modal hidden" id="adminModal">
 <div class="modal-content">
-<div class="modal-head">
-<div>
-<h3 style="margin:0;">Admin — Gestion des vêtements</h3>
-<div class="small">Ajouter • Modifier • Supprimer • Date auto • <b>Plusieurs photos</b></div>
-</div>
-<button class="btn-outline" type="button" onclick="closeAdminPanel()">Fermer</button>
-</div>
 
-<div class="card" style="padding:14px;background:#fff7fb;border:1px solid rgba(255,79,163,.15);">
-<h4 style="margin:0 0 10px;">➕ Ajouter / ✏️ Modifier</h4>
+<h3>Admin</h3>
+<input type="password" id="adminPass" placeholder="Mot de passe admin">
+<button class="btn" onclick="loginAdmin()">Connexion</button>
 
-<div class="row">
-<div>
-<div class="small">Nom</div>
-<input id="pName" placeholder="Ex: Robe rose" />
-</div>
-<div>
-<div class="small">Prix (DZD)</div>
-<input id="pPrice" type="number" placeholder="Ex: 2500" />
-</div>
-<div>
-<div class="small">Tailles (séparées par virgule)</div>
-<input id="pSizes" placeholder="Ex: S,M,L" />
-</div>
-</div>
+<div id="adminPanel" class="hidden">
 
-<div class="row" style="margin-top:10px;">
-<div>
-<div class="small">Catégorie</div>
-<input id="pCategory" placeholder="Ex: Robes" />
-</div>
-<div>
-<div class="small">Référence (optionnel)</div>
-<input id="pRef" placeholder="Ex: SHR-001" />
-</div>
-</div>
+<h4>Ajouter produit</h4>
 
-<div style="margin-top:10px;">
-<div class="small"><b>Entrez les photos depuis votre appareil</b> (plusieurs)</div>
-<input type="file" id="pImagesFiles" accept="image/*" multiple>
-<div class="small" style="margin-top:6px;">
-Astuce : clique sur une miniature pour <b>retirer</b> une photo avant d’enregistrer.
-</div>
-<div class="thumbs" id="thumbs"></div>
-</div>
+<input id="pName" placeholder="Nom">
+<input id="pPrice" type="number" placeholder="Prix DZD">
+<input id="pSizes" placeholder="Tailles ex: S,M,L">
+<input type="file" id="pImages" multiple accept="image/*">
+<textarea id="pDesc" placeholder="Description"></textarea>
 
-<div style="margin-top:10px;">
-<div class="small">Description</div>
-<textarea id="pDesc" placeholder="Décris le vêtement (matière, couleur, détails...)"></textarea>
-</div>
+<button class="btn" onclick="saveProduct()">Enregistrer</button>
 
-<div class="controls" style="justify-content:flex-end;margin-top:10px;">
-<span class="small" id="editHint" style="margin-right:auto;"></span>
-<button class="btn-outline" type="button" onclick="clearForm()">Effacer</button>
-<button class="btn" type="button" onclick="saveProduct()">Enregistrer</button>
-</div>
-
-<div class="hint" style="margin-top:12px;">
-📌 Version gratuite : on enregistre les photos en base64 dans Realtime Database.<br>
-Limites conseillées : <b>max 6 photos</b> • <b>max 800 Ko</b> par photo.
-</div>
-</div>
-
-<div style="height:14px;"></div>
-
-<div class="card">
-<h4 style="margin:0 0 10px;">📦 Liste des produits</h4>
-<div class="small">Clique “Modifier” pour remplir le formulaire, ou “Supprimer”.</div>
-
+<h4>Liste des produits</h4>
 <table>
 <thead>
 <tr>
 <th>Nom</th>
 <th>Prix</th>
-<th>Catégorie</th>
-<th>Tailles</th>
-<th>Photos</th>
-<th>Date</th>
 <th>Actions</th>
 </tr>
 </thead>
-<tbody id="adminTableBody">
-<tr><td colspan="7">Chargement…</td></tr>
-</tbody>
+<tbody id="adminTable"></tbody>
 </table>
-</div>
-</div>
+
 </div>
 
-<!-- MODAL GALERIE PRODUIT -->
-<div class="modal hidden" id="galleryModal">
-<div class="modal-content galleryBox">
-<div class="modal-head">
-<div>
-<h3 style="margin:0;" id="gTitle">Photos</h3>
-<div class="small" id="gSubtitle"></div>
-</div>
-<button class="btn-outline" type="button" onclick="closeGallery()">Fermer</button>
-</div>
+<button class="btn-outline" onclick="closeAdmin()">Fermer</button>
 
-<div class="galleryMain">
-<img id="gMainImg" alt="Photo produit" />
-</div>
-
-<div class="galleryStrip" id="gStrip"></div>
 </div>
 </div>
 
 <script>
-/* =========================
-Firebase (TON projet)
-========================= */
 const firebaseConfig = {
 apiKey: "AIzaSyBXn_hSQShtznZYPcLl-66jKDTSoQttyxg",
 authDomain: "site-de-iman.firebaseapp.com",
 databaseURL: "https://site-de-iman-default-rtdb.europe-west1.firebasedatabase.app",
 projectId: "site-de-iman"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const productsRef = db.ref("products");
 
-/* =========================
-Boutique (fixe)
-========================= */
-const SHOP_PHONE = "213655622411";
-const SHOP_EMAIL = "imanboutique67@gmail.com";
+const SHOP_PHONE="213655622411";
+const SHOP_EMAIL="imanboutique67@gmail.com";
+const ADMIN_PASSWORD="DzShr@Gbl$7281";
 
-/* =========================
-Admin (mot de passe)
-========================= */
-const ADMIN_PASSWORD = "DzShr@Gbl$7281";
+let ALL=[];
 
-/* =========================
-Limites images (gratuit)
-========================= */
-const MAX_IMAGES = 6;
-const MAX_BYTES_PER_IMAGE = 800 * 1024; // 800 Ko
+function openWhatsApp(){window.open("https://wa.me/"+SHOP_PHONE,"_blank");}
+function sendEmail(){window.location.href="mailto:"+SHOP_EMAIL;}
 
-/* =========================
-Etat
-========================= */
-let ALL = []; // liste produits
-let EDIT_KEY = null; // produit en édition
-
-// Images admin
-let EXISTING_IMAGES = []; // images existantes du produit (edit)
-let NEW_IMAGES = []; // images nouvelles ajoutées (base64)
-let REMOVED_INDEXES = new Set(); // indices supprimés dans EXISTING_IMAGES
-
-/* =========================
-Helpers
-========================= */
-function esc(s){
-return String(s ?? "").replace(/[&<>"']/g, m => ({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-}[m]));
-}
-function dzd(n){ return Number(n||0).toLocaleString("fr-FR") + " DZD"; }
-function formatDate(ts){
-if(!ts) return "-";
-const d = new Date(ts);
-return d.toLocaleDateString("fr-FR") + " " + d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
-}
-function parseSizes(s){
-return String(s||"").split(",").map(x=>x.trim()).filter(Boolean);
-}
-function unique(arr){ return Array.from(new Set(arr)); }
-
-/* =========================
-Contact actions
-========================= */
-function openWhatsApp(){
-window.open("https://wa.me/" + SHOP_PHONE, "_blank");
-}
-function sendEmail(){
-window.location.href = "mailto:" + SHOP_EMAIL;
-}
-
-/* =========================
-Catalogue (filtres)
-========================= */
-const productsBox = document.getElementById("products");
-const countPill = document.getElementById("countPill");
-
-const searchEl = document.getElementById("search");
-const catEl = document.getElementById("cat");
-const sizeEl = document.getElementById("size");
-const sortEl = document.getElementById("sort");
-
-function buildFilters(){
-const cats = unique(ALL.map(p=>p.category).filter(Boolean)).sort((a,b)=>a.localeCompare(b,"fr"));
-const sizes = unique(ALL.flatMap(p=>Array.isArray(p.sizes)?p.sizes:[]).filter(Boolean)).sort();
-
-const prevCat = catEl.value || "all";
-const prevSize = sizeEl.value || "all";
-
-catEl.innerHTML = `<option value="all">Toutes catégories</option>` +
-cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
-
-sizeEl.innerHTML = `<option value="all">Toutes tailles</option>` +
-sizes.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join("");
-
-if([...catEl.options].some(o=>o.value===prevCat)) catEl.value = prevCat;
-if([...sizeEl.options].some(o=>o.value===prevSize)) sizeEl.value = prevSize;
-}
-
-function getFiltered(){
-const q = (searchEl.value||"").trim().toLowerCase();
-const cat = catEl.value;
-const size = sizeEl.value;
-const sort = sortEl.value;
-
-let list = ALL.slice();
-
-if(q){
-list = list.filter(p =>
-(p.name||"").toLowerCase().includes(q) ||
-(p.description||"").toLowerCase().includes(q) ||
-(p.ref||"").toLowerCase().includes(q)
-);
-}
-if(cat !== "all") list = list.filter(p => p.category === cat);
-if(size !== "all") list = list.filter(p => (p.sizes||[]).includes(size));
-
-if(sort === "priceAsc") list.sort((a,b)=>(a.priceDZD||0)-(b.priceDZD||0));
-else if(sort === "priceDesc") list.sort((a,b)=>(b.priceDZD||0)-(a.priceDZD||0));
-else list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-
-return list;
-}
-
-function renderCatalogue(){
-const list = getFiltered();
-countPill.textContent = `${list.length} article(s)`;
-
-if(!list.length){
-productsBox.innerHTML = `<div class="small">Aucun produit trouvé.</div>`;
-return;
-}
-
-let html = "";
-list.forEach(p=>{
-const images = Array.isArray(p.images) ? p.images : [];
-const cover = images[0] || "";
-const photosCount = images.length;
-
-html += `
-<div class="product">
-${cover
-? `<div style="position:relative;">
-<img src="${esc(cover)}" alt="${esc(p.name)}">
-${photosCount>1 ? `<div class="badgePhotos">📷 ${photosCount} photos</div>` : ``}
-</div>`
-: `<div class="imgBox">📷 Photos à ajouter</div>`
-}
-
-<div class="product-body">
-<b>${esc(p.name||"")}</b>
-<div class="meta">${esc(p.category||"")} ${p.ref ? "• Réf: "+esc(p.ref):""}</div>
-<div class="meta">Tailles: <b>${esc((p.sizes||[]).join(", ") || "—")}</b></div>
-<div>${esc(p.description||"")}</div>
-<div class="price">${dzd(p.priceDZD)}</div>
-
-<div class="controls">
-<button class="btn" type="button" onclick="openWhatsApp()">Contacter</button>
-${photosCount ? `<button class="btn-outline" type="button" onclick="openGallery('${p.key}')">Voir photos</button>` : ``}
-</div>
-</div>
-</div>
-`;
-});
-
-productsBox.innerHTML = html;
-}
-
-function resetFilters(){
-searchEl.value = "";
-catEl.value = "all";
-sizeEl.value = "all";
-sortEl.value = "new";
-renderCatalogue();
-}
-
-searchEl.addEventListener("input", renderCatalogue);
-catEl.addEventListener("change", renderCatalogue);
-sizeEl.addEventListener("change", renderCatalogue);
-sortEl.addEventListener("change", renderCatalogue);
-
-/* =========================
-Galerie produit
-========================= */
-const galleryModal = document.getElementById("galleryModal");
-const gTitle = document.getElementById("gTitle");
-const gSubtitle = document.getElementById("gSubtitle");
-const gMainImg = document.getElementById("gMainImg");
-const gStrip = document.getElementById("gStrip");
-
-function openGallery(key){
-const p = ALL.find(x=>x.key===key);
-if(!p) return;
-
-const images = Array.isArray(p.images) ? p.images : [];
-if(!images.length) return;
-
-gTitle.textContent = p.name || "Photos";
-gSubtitle.textContent = `${dzd(p.priceDZD)} • ${images.length} photo(s)`;
-
-setGalleryMain(images[0]);
-renderGalleryStrip(images, 0);
-
-galleryModal.classList.remove("hidden");
-}
-
-function setGalleryMain(src){
-gMainImg.src = src;
-}
-
-function renderGalleryStrip(images, activeIndex){
-gStrip.innerHTML = images.map((src, i)=>`
-<div class="gThumb ${i===activeIndex?'active':''}" data-i="${i}">
-<img src="${esc(src)}" alt="photo ${i+1}">
-</div>
-`).join("");
-
-gStrip.querySelectorAll(".gThumb").forEach(el=>{
-el.addEventListener("click", ()=>{
-const i = Number(el.getAttribute("data-i"));
-setGalleryMain(images[i]);
-renderGalleryStrip(images, i);
-});
-});
-}
-
-function closeGallery(){
-galleryModal.classList.add("hidden");
-gStrip.innerHTML = "";
-gMainImg.src = "";
-}
-galleryModal.addEventListener("click", (e)=>{ if(e.target===galleryModal) closeGallery(); });
-
-/* =========================
-Admin modals
-========================= */
-const adminLoginModal = document.getElementById("adminLoginModal");
-const adminPanelModal = document.getElementById("adminPanelModal");
-const adminPass = document.getElementById("adminPass");
-
-function openAdminLogin(){
-adminPass.value = "";
-adminLoginModal.classList.remove("hidden");
-setTimeout(()=>adminPass.focus(), 80);
-}
-function closeAdminLogin(){ adminLoginModal.classList.add("hidden"); }
-function closeAdminPanel(){ adminPanelModal.classList.add("hidden"); }
+function openAdmin(){document.getElementById("adminModal").classList.remove("hidden");}
+function closeAdmin(){document.getElementById("adminModal").classList.add("hidden");}
 
 function loginAdmin(){
-if(adminPass.value === ADMIN_PASSWORD){
-closeAdminLogin();
-adminPanelModal.classList.remove("hidden");
-renderAdminTable();
-}else{
-alert("Mot de passe incorrect");
-}
-}
-
-/* =========================
-Admin form (multi photos)
-========================= */
-const pName = document.getElementById("pName");
-const pPrice = document.getElementById("pPrice");
-const pSizes = document.getElementById("pSizes");
-const pCategory = document.getElementById("pCategory");
-const pRef = document.getElementById("pRef");
-const pDesc = document.getElementById("pDesc");
-const pImagesFiles = document.getElementById("pImagesFiles");
-const editHint = document.getElementById("editHint");
-const thumbs = document.getElementById("thumbs");
-
-function clearImagesState(){
-EXISTING_IMAGES = [];
-NEW_IMAGES = [];
-REMOVED_INDEXES = new Set();
-pImagesFiles.value = "";
-renderThumbs();
-}
-
-function clearForm(){
-EDIT_KEY = null;
-pName.value = "";
-pPrice.value = "";
-pSizes.value = "";
-pCategory.value = "";
-pRef.value = "";
-pDesc.value = "";
-editHint.textContent = "";
-clearImagesState();
-}
-
-function fillForm(p){
-EDIT_KEY = p.key;
-pName.value = p.name || "";
-pPrice.value = p.priceDZD ?? "";
-pSizes.value = (p.sizes||[]).join(",");
-pCategory.value = p.category || "";
-pRef.value = p.ref || "";
-pDesc.value = p.description || "";
-editHint.textContent = "✏️ Modification : " + (p.name || "");
-
-EXISTING_IMAGES = Array.isArray(p.images) ? p.images.slice() : [];
-NEW_IMAGES = [];
-REMOVED_INDEXES = new Set();
-pImagesFiles.value = "";
-renderThumbs();
-}
-
-function validateProduct(){
-const name = pName.value.trim();
-const category = pCategory.value.trim();
-const price = Number(pPrice.value);
-const sizes = parseSizes(pSizes.value);
-const ref = pRef.value.trim();
-const description = pDesc.value.trim();
-
-if(!name) return {ok:false,msg:"Nom obligatoire"};
-if(!category) return {ok:false,msg:"Catégorie obligatoire"};
-if(!Number.isFinite(price) || price<=0) return {ok:false,msg:"Prix DZD invalide"};
-return {ok:true, data:{name, category, priceDZD:price, sizes, ref, description}};
-}
-
-function totalImagesCountAfter(){
-const keptExisting = EXISTING_IMAGES.filter((_, idx)=>!REMOVED_INDEXES.has(idx)).length;
-return keptExisting + NEW_IMAGES.length;
-}
-
-function renderThumbs(){
-const kept = EXISTING_IMAGES
-.map((src, idx)=>({src, type:"existing", idx}))
-.filter(x=>!REMOVED_INDEXES.has(x.idx));
-const added = NEW_IMAGES.map((src, idx)=>({src, type:"new", idx}));
-
-const all = [...kept, ...added];
-
-if(!all.length){
-thumbs.innerHTML = `<div class="small">Aucune photo sélectionnée.</div>`;
-return;
-}
-
-thumbs.innerHTML = all.map((x, i)=>`
-<div class="thumb" data-type="${x.type}" data-idx="${x.idx}">
-<img src="${esc(x.src)}" alt="photo">
-<div class="x">×</div>
-<div class="tag">${x.type === "existing" ? "Actuelle" : "Nouvelle"}</div>
-</div>
-`).join("");
-
-thumbs.querySelectorAll(".thumb").forEach(el=>{
-el.addEventListener("click", ()=>{
-const type = el.getAttribute("data-type");
-const idx = Number(el.getAttribute("data-idx"));
-
-if(type === "existing"){
-REMOVED_INDEXES.add(idx);
-}else{
-NEW_IMAGES.splice(idx, 1);
-}
-renderThumbs();
-});
-});
-}
-
-pImagesFiles.addEventListener("change", async ()=>{
-const files = Array.from(pImagesFiles.files || []);
-if(!files.length) return;
-
-// combien de places restantes ?
-const currentCount = totalImagesCountAfter();
-let remaining = MAX_IMAGES - currentCount;
-
-if(remaining <= 0){
-alert(`Max ${MAX_IMAGES} photos. Retire une photo avant d’en ajouter.`);
-pImagesFiles.value = "";
-return;
-}
-
-// ne garder que 'remaining' fichiers
-const toRead = files.slice(0, remaining);
-
-// validation taille
-for(const f of toRead){
-if(f.size > MAX_BYTES_PER_IMAGE){
-alert(`Photo trop grande: "${f.name}". Max ${(MAX_BYTES_PER_IMAGE/1024).toFixed(0)} Ko.`);
-pImagesFiles.value = "";
-return;
-}
-}
-
-// lire en base64
-const dataUrls = await Promise.all(toRead.map(fileToDataURL));
-NEW_IMAGES.push(...dataUrls);
-
-// reset input + refresh thumbs
-pImagesFiles.value = "";
-renderThumbs();
-});
-
-function fileToDataURL(file){
-return new Promise((resolve, reject)=>{
-const r = new FileReader();
-r.onerror = ()=>reject(new Error("read error"));
-r.onload = ()=>resolve(r.result);
-r.readAsDataURL(file);
-});
-}
-
-function buildFinalImages(){
-const keptExisting = EXISTING_IMAGES.filter((_, idx)=>!REMOVED_INDEXES.has(idx));
-return [...keptExisting, ...NEW_IMAGES].slice(0, MAX_IMAGES);
+if(document.getElementById("adminPass").value===ADMIN_PASSWORD){
+document.getElementById("adminPanel").classList.remove("hidden");
+}else alert("Mot de passe incorrect");
 }
 
 function saveProduct(){
-const v = validateProduct();
-if(!v.ok){ alert(v.msg); return; }
+const name=document.getElementById("pName").value;
+const price=document.getElementById("pPrice").value;
+const sizes=document.getElementById("pSizes").value.split(",");
+const desc=document.getElementById("pDesc").value;
+const files=document.getElementById("pImages").files;
 
-const existing = EDIT_KEY ? ALL.find(x=>x.key===EDIT_KEY) : null;
+let images=[];
+let count=0;
 
-const finalImages = buildFinalImages();
-if(finalImages.length > MAX_IMAGES){
-alert(`Max ${MAX_IMAGES} photos.`);
-return;
+if(files.length===0){alert("Ajoute au moins une photo");return;}
+
+for(let file of files){
+const reader=new FileReader();
+reader.onload=function(e){
+images.push(e.target.result);
+count++;
+if(count===files.length){
+productsRef.push({
+name,
+priceDZD:price,
+sizes,
+description:desc,
+images,
+createdAt:Date.now()
+});
 }
-
-const data = {
-...v.data,
-images: finalImages,
-createdAt: existing?.createdAt || Date.now()
 };
-
-if(EDIT_KEY){
-productsRef.child(EDIT_KEY).set(data).then(()=>{
-alert("✅ Produit mis à jour !");
-clearForm();
-}).catch(err=>{
-console.error(err);
-alert("❌ Erreur Firebase (vérifie les Rules).");
-});
-}else{
-productsRef.push(data).then(()=>{
-alert("✅ Produit ajouté !");
-clearForm();
-}).catch(err=>{
-console.error(err);
-alert("❌ Erreur Firebase (vérifie les Rules).");
-});
+reader.readAsDataURL(file);
 }
 }
 
-function deleteProduct(key){
-if(!confirm("Supprimer ce produit ?")) return;
-productsRef.child(key).remove().catch(err=>{
-console.error(err);
-alert("❌ Erreur suppression.");
-});
-}
-
-/* =========================
-Admin table
-========================= */
-const adminTableBody = document.getElementById("adminTableBody");
-
-function renderAdminTable(){
-if(adminPanelModal.classList.contains("hidden")) return;
-
-const rows = ALL.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-if(!rows.length){
-adminTableBody.innerHTML = `<tr><td colspan="7">Aucun produit.</td></tr>`;
-return;
-}
-
-adminTableBody.innerHTML = rows.map(p=>{
-const photosCount = Array.isArray(p.images) ? p.images.length : 0;
-return `
-<tr>
-<td><b>${esc(p.name)}</b><div class="small">${p.ref ? "Réf: "+esc(p.ref) : ""}</div></td>
-<td>${esc(dzd(p.priceDZD))}</td>
-<td>${esc(p.category||"")}</td>
-<td>${esc((p.sizes||[]).join(", "))}</td>
-<td>${photosCount ? `📷 ${photosCount}` : "—"}</td>
-<td>${esc(formatDate(p.createdAt))}</td>
-<td>
-<div class="rowBtns">
-<button class="btn-outline" type="button" data-edit="${p.key}">Modifier</button>
-<button class="btn-danger" type="button" data-del="${p.key}">Supprimer</button>
-</div>
-</td>
-</tr>
-`;
-}).join("");
-
-adminTableBody.querySelectorAll("[data-edit]").forEach(btn=>{
-btn.addEventListener("click", ()=>{
-const key = btn.getAttribute("data-edit");
-const p = ALL.find(x=>x.key===key);
-if(p) fillForm(p);
-});
-});
-adminTableBody.querySelectorAll("[data-del]").forEach(btn=>{
-btn.addEventListener("click", ()=>{
-const key = btn.getAttribute("data-del");
-deleteProduct(key);
-});
-});
-}
-
-/* =========================
-Firebase live sync
-========================= */
-productsRef.on("value", (snap)=>{
-const items = [];
+productsRef.on("value",(snap)=>{
+const items=[];
 snap.forEach(child=>{
-const v = child.val() || {};
-items.push({
-key: child.key,
-name: v.name || "",
-category: v.category || "",
-ref: v.ref || "",
-description: v.description || "",
-images: Array.isArray(v.images) ? v.images : [],
-sizes: Array.isArray(v.sizes) ? v.sizes : [],
-priceDZD: Number(v.priceDZD || 0),
-createdAt: Number(v.createdAt || 0)
+items.push({key:child.key,...child.val()});
 });
-});
-ALL = items;
-buildFilters();
+ALL=items;
 renderCatalogue();
 renderAdminTable();
 });
 
-/* =========================
-Close modals on background click
-========================= */
-adminLoginModal.addEventListener("click", (e)=>{ if(e.target===adminLoginModal) closeAdminLogin(); });
-adminPanelModal.addEventListener("click", (e)=>{ if(e.target===adminPanelModal) closeAdminPanel(); });
+function renderCatalogue(){
+const box=document.getElementById("products");
+if(!ALL.length){box.innerHTML="Aucun produit";return;}
+box.innerHTML=ALL.map(p=>`
+<div class="product">
+${p.images?.[0]?`<img src="${p.images[0]}">`:""}
+<div class="product-body">
+<b>${p.name}</b>
+<div>${p.description}</div>
+<div class="price">${p.priceDZD} DZD</div>
+<button class="btn" onclick="openWhatsApp()">Contacter</button>
+</div>
+</div>
+`).join("");
+}
+
+function renderAdminTable(){
+const body=document.getElementById("adminTable");
+body.innerHTML=ALL.map(p=>`
+<tr>
+<td>${p.name}</td>
+<td>${p.priceDZD} DZD</td>
+<td>
+<button class="btn-outline" onclick="deleteProduct('${p.key}')">Supprimer</button>
+</td>
+</tr>
+`).join("");
+}
+
+function deleteProduct(key){
+if(confirm("Supprimer ?")){
+productsRef.child(key).remove();
+}
+}
 </script>
+
 </body>
 </html>
