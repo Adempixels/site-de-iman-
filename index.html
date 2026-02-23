@@ -1,8 +1,3 @@
-
-Adem-Sahraoui SAHLI <ademsahraoui2503@gmail.com>
-12:58 PM (1 minute ago)
-to me
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,7 +13,7 @@ to me
 --bg2:#ffe2f1;
 --ink:#2b1030;
 --muted:#6b3f6e;
---card:#ffffff;
+--card:rgba(255,255,255,.92);
 --shadow:0 18px 55px rgba(0,0,0,.14);
 --r:20px;
 --b:rgba(255,79,163,.20);
@@ -45,7 +40,7 @@ h1{margin:0;font-size:34px;letter-spacing:.2px}
 @media (max-width:900px){ .grid{grid-template-columns:1fr;} }
 
 .card{
-background:rgba(255,255,255,.92);
+background:var(--card);
 border:1px solid var(--b);
 padding:20px;
 border-radius:var(--r);
@@ -54,6 +49,8 @@ backdrop-filter: blur(6px);
 }
 
 .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row > *{flex:1;min-width:160px}
 
 input, textarea, select{
 width:100%;
@@ -101,6 +98,9 @@ font-weight:900;
 font-size:12px;
 }
 
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.filters input,.filters select{flex:1;min-width:200px}
+
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -125,20 +125,41 @@ align-items:center;
 justify-content:center;
 color:var(--muted);
 font-weight:900;
+position:relative;
 }
 .product img{width:100%;height:220px;object-fit:cover;display:block}
+.badgePhotos{
+position:absolute;
+right:10px; bottom:10px;
+background:rgba(255,255,255,.90);
+border:1px solid rgba(255,79,163,.25);
+color:#7a1451;
+padding:6px 10px;
+border-radius:999px;
+font-size:12px;
+font-weight:900;
+}
 .product-body{padding:15px;display:flex;flex-direction:column;gap:8px;flex:1}
 .price{color:#b0005f;font-weight:900}
 .meta{color:var(--muted);font-size:12px}
 .small{font-size:12px;color:var(--muted)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.row > *{flex:1;min-width:160px}
+.hint{
+margin-top:10px;
+padding:12px;
+border-radius:16px;
+border:1px solid rgba(255,79,163,.18);
+background:linear-gradient(90deg, rgba(255,79,163,.10), rgba(191,230,255,.12));
+color:rgba(43,16,48,.92);
+font-size:13px;
+line-height:1.35;
+}
 
 .admin-btn{
 position:fixed;bottom:15px;right:15px;
 background:white;border:1px solid var(--b);
 padding:10px 15px;border-radius:50px;
 cursor:pointer;box-shadow:var(--shadow);
+z-index:30;
 }
 
 .modal{
@@ -178,27 +199,72 @@ font-size:13px;
 th{background:rgba(255,79,163,.08);color:var(--ink);font-weight:900}
 tr:last-child td{border-bottom:none}
 .rowBtns{display:flex;gap:8px;flex-wrap:wrap}
-.hint{
+
+/* Galerie preview admin */
+.thumbs{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 margin-top:10px;
-padding:12px;
+}
+.thumb{
+width:92px;height:92px;
 border-radius:16px;
-border:1px solid rgba(255,79,163,.18);
-background:linear-gradient(90deg, rgba(255,79,163,.10), rgba(191,230,255,.12));
-color:rgba(43,16,48,.92);
-font-size:13px;
-line-height:1.35;
+border:1px solid rgba(0,0,0,.10);
+overflow:hidden;
+position:relative;
+background:#f7f2f6;
+cursor:pointer;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .x{
+position:absolute; top:6px; right:6px;
+background:rgba(255,255,255,.92);
+border:1px solid rgba(255,79,163,.22);
+color:#7a1451;
+width:22px;height:22px;
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-weight:900;
+font-size:12px;
+}
+.thumb .tag{
+position:absolute; left:6px; bottom:6px;
+background:rgba(255,255,255,.92);
+border:1px solid rgba(0,0,0,.08);
+padding:3px 7px;
+border-radius:999px;
+font-size:11px;
+font-weight:900;
+color:rgba(43,16,48,.85);
 }
 
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.filters input,.filters select{flex:1;min-width:200px}
-
-.preview{
-margin-top:10px;
-display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+/* Modal galerie produit */
+.galleryBox{
+max-width:880px;
 }
-.preview img{
-width:120px;height:120px;object-fit:cover;border-radius:16px;border:1px solid rgba(0,0,0,.08);
+.galleryMain{
+width:100%;
+height:min(70vh,520px);
+background:#f7f2f6;
+border-radius:18px;
+border:1px solid rgba(0,0,0,.08);
+overflow:hidden;
+display:flex;align-items:center;justify-content:center;
+margin-bottom:12px;
 }
+.galleryMain img{width:100%;height:100%;object-fit:contain;background:#fff}
+.galleryStrip{
+display:flex;gap:10px;flex-wrap:wrap;
+}
+.gThumb{
+width:86px;height:86px;border-radius:16px;overflow:hidden;
+border:2px solid transparent;
+background:#f7f2f6;
+cursor:pointer;
+}
+.gThumb.active{border-color: var(--pink)}
+.gThumb img{width:100%;height:100%;object-fit:cover;display:block}
 </style>
 
 <!-- Firebase compat (HTML simple) -->
@@ -285,7 +351,7 @@ Astuce : si ça ne marche pas, vérifie les règles Firebase (write).
 <div class="modal-head">
 <div>
 <h3 style="margin:0;">Admin — Gestion des vêtements</h3>
-<div class="small">Ajouter • Modifier • Supprimer • Date auto • Photo depuis appareil</div>
+<div class="small">Ajouter • Modifier • Supprimer • Date auto • <b>Plusieurs photos</b></div>
 </div>
 <button class="btn-outline" type="button" onclick="closeAdminPanel()">Fermer</button>
 </div>
@@ -320,12 +386,12 @@ Astuce : si ça ne marche pas, vérifie les règles Firebase (write).
 </div>
 
 <div style="margin-top:10px;">
-<div class="small">Entrez les photos depuis votre appareil</div>
-<input type="file" id="pImageFile" accept="image/*">
-<div class="preview" id="imgPreview" style="display:none;">
-<img id="imgPreviewTag" alt="Aperçu">
-<div class="small" id="imgPreviewInfo"></div>
+<div class="small"><b>Entrez les photos depuis votre appareil</b> (plusieurs)</div>
+<input type="file" id="pImagesFiles" accept="image/*" multiple>
+<div class="small" style="margin-top:6px;">
+Astuce : clique sur une miniature pour <b>retirer</b> une photo avant d’enregistrer.
 </div>
+<div class="thumbs" id="thumbs"></div>
 </div>
 
 <div style="margin-top:10px;">
@@ -340,8 +406,8 @@ Astuce : si ça ne marche pas, vérifie les règles Firebase (write).
 </div>
 
 <div class="hint" style="margin-top:12px;">
-📌 Conseil gratuit : pour éviter les bugs, garde les photos petites (max <b>1,5 Mo</b>).<br>
-(Ici on enregistre la photo en base64 dans la Realtime Database.)
+📌 Version gratuite : on enregistre les photos en base64 dans Realtime Database.<br>
+Limites conseillées : <b>max 6 photos</b> • <b>max 800 Ko</b> par photo.
 </div>
 </div>
 
@@ -358,15 +424,35 @@ Astuce : si ça ne marche pas, vérifie les règles Firebase (write).
 <th>Prix</th>
 <th>Catégorie</th>
 <th>Tailles</th>
+<th>Photos</th>
 <th>Date</th>
 <th>Actions</th>
 </tr>
 </thead>
 <tbody id="adminTableBody">
-<tr><td colspan="6">Chargement…</td></tr>
+<tr><td colspan="7">Chargement…</td></tr>
 </tbody>
 </table>
 </div>
+</div>
+</div>
+
+<!-- MODAL GALERIE PRODUIT -->
+<div class="modal hidden" id="galleryModal">
+<div class="modal-content galleryBox">
+<div class="modal-head">
+<div>
+<h3 style="margin:0;" id="gTitle">Photos</h3>
+<div class="small" id="gSubtitle"></div>
+</div>
+<button class="btn-outline" type="button" onclick="closeGallery()">Fermer</button>
+</div>
+
+<div class="galleryMain">
+<img id="gMainImg" alt="Photo produit" />
+</div>
+
+<div class="galleryStrip" id="gStrip"></div>
 </div>
 </div>
 
@@ -397,10 +483,21 @@ Admin (mot de passe)
 const ADMIN_PASSWORD = "DzShr@Gbl$7281";
 
 /* =========================
+Limites images (gratuit)
+========================= */
+const MAX_IMAGES = 6;
+const MAX_BYTES_PER_IMAGE = 800 * 1024; // 800 Ko
+
+/* =========================
 Etat
 ========================= */
 let ALL = []; // liste produits
 let EDIT_KEY = null; // produit en édition
+
+// Images admin
+let EXISTING_IMAGES = []; // images existantes du produit (edit)
+let NEW_IMAGES = []; // images nouvelles ajoutées (base64)
+let REMOVED_INDEXES = new Set(); // indices supprimés dans EXISTING_IMAGES
 
 /* =========================
 Helpers
@@ -495,17 +592,31 @@ return;
 
 let html = "";
 list.forEach(p=>{
+const images = Array.isArray(p.images) ? p.images : [];
+const cover = images[0] || "";
+const photosCount = images.length;
+
 html += `
 <div class="product">
-${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}">`
-: `<div class="imgBox">📷 Photo à ajouter</div>`}
+${cover
+? `<div style="position:relative;">
+<img src="${esc(cover)}" alt="${esc(p.name)}">
+${photosCount>1 ? `<div class="badgePhotos">📷 ${photosCount} photos</div>` : ``}
+</div>`
+: `<div class="imgBox">📷 Photos à ajouter</div>`
+}
+
 <div class="product-body">
 <b>${esc(p.name||"")}</b>
 <div class="meta">${esc(p.category||"")} ${p.ref ? "• Réf: "+esc(p.ref):""}</div>
 <div class="meta">Tailles: <b>${esc((p.sizes||[]).join(", ") || "—")}</b></div>
 <div>${esc(p.description||"")}</div>
 <div class="price">${dzd(p.priceDZD)}</div>
+
+<div class="controls">
 <button class="btn" type="button" onclick="openWhatsApp()">Contacter</button>
+${photosCount ? `<button class="btn-outline" type="button" onclick="openGallery('${p.key}')">Voir photos</button>` : ``}
+</div>
 </div>
 </div>
 `;
@@ -526,6 +637,58 @@ searchEl.addEventListener("input", renderCatalogue);
 catEl.addEventListener("change", renderCatalogue);
 sizeEl.addEventListener("change", renderCatalogue);
 sortEl.addEventListener("change", renderCatalogue);
+
+/* =========================
+Galerie produit
+========================= */
+const galleryModal = document.getElementById("galleryModal");
+const gTitle = document.getElementById("gTitle");
+const gSubtitle = document.getElementById("gSubtitle");
+const gMainImg = document.getElementById("gMainImg");
+const gStrip = document.getElementById("gStrip");
+
+function openGallery(key){
+const p = ALL.find(x=>x.key===key);
+if(!p) return;
+
+const images = Array.isArray(p.images) ? p.images : [];
+if(!images.length) return;
+
+gTitle.textContent = p.name || "Photos";
+gSubtitle.textContent = `${dzd(p.priceDZD)} • ${images.length} photo(s)`;
+
+setGalleryMain(images[0]);
+renderGalleryStrip(images, 0);
+
+galleryModal.classList.remove("hidden");
+}
+
+function setGalleryMain(src){
+gMainImg.src = src;
+}
+
+function renderGalleryStrip(images, activeIndex){
+gStrip.innerHTML = images.map((src, i)=>`
+<div class="gThumb ${i===activeIndex?'active':''}" data-i="${i}">
+<img src="${esc(src)}" alt="photo ${i+1}">
+</div>
+`).join("");
+
+gStrip.querySelectorAll(".gThumb").forEach(el=>{
+el.addEventListener("click", ()=>{
+const i = Number(el.getAttribute("data-i"));
+setGalleryMain(images[i]);
+renderGalleryStrip(images, i);
+});
+});
+}
+
+function closeGallery(){
+galleryModal.classList.add("hidden");
+gStrip.innerHTML = "";
+gMainImg.src = "";
+}
+galleryModal.addEventListener("click", (e)=>{ if(e.target===galleryModal) closeGallery(); });
 
 /* =========================
 Admin modals
@@ -553,7 +716,7 @@ alert("Mot de passe incorrect");
 }
 
 /* =========================
-Admin form + preview
+Admin form (multi photos)
 ========================= */
 const pName = document.getElementById("pName");
 const pPrice = document.getElementById("pPrice");
@@ -561,76 +724,45 @@ const pSizes = document.getElementById("pSizes");
 const pCategory = document.getElementById("pCategory");
 const pRef = document.getElementById("pRef");
 const pDesc = document.getElementById("pDesc");
-const pImageFile = document.getElementById("pImageFile");
+const pImagesFiles = document.getElementById("pImagesFiles");
 const editHint = document.getElementById("editHint");
+const thumbs = document.getElementById("thumbs");
 
-const imgPreview = document.getElementById("imgPreview");
-const imgPreviewTag = document.getElementById("imgPreviewTag");
-const imgPreviewInfo = document.getElementById("imgPreviewInfo");
-
-let PENDING_IMAGE_DATA = ""; // base64 à enregistrer si choisie
-
-pImageFile.addEventListener("change", ()=>{
-const file = pImageFile.files && pImageFile.files[0];
-if(!file){
-PENDING_IMAGE_DATA = "";
-imgPreview.style.display = "none";
-return;
+function clearImagesState(){
+EXISTING_IMAGES = [];
+NEW_IMAGES = [];
+REMOVED_INDEXES = new Set();
+pImagesFiles.value = "";
+renderThumbs();
 }
-
-const MAX_BYTES = 1.5 * 1024 * 1024; // 1,5 Mo conseillé
-if(file.size > MAX_BYTES){
-alert("Photo trop grande. Choisis une photo plus légère (max 1,5 Mo).");
-pImageFile.value = "";
-PENDING_IMAGE_DATA = "";
-imgPreview.style.display = "none";
-return;
-}
-
-const reader = new FileReader();
-reader.onload = (e)=>{
-PENDING_IMAGE_DATA = e.target.result;
-imgPreviewTag.src = PENDING_IMAGE_DATA;
-imgPreviewInfo.textContent = `${file.name} • ${(file.size/1024).toFixed(0)} Ko`;
-imgPreview.style.display = "flex";
-};
-reader.readAsDataURL(file);
-});
 
 function clearForm(){
 EDIT_KEY = null;
-PENDING_IMAGE_DATA = "";
 pName.value = "";
 pPrice.value = "";
 pSizes.value = "";
 pCategory.value = "";
 pRef.value = "";
 pDesc.value = "";
-pImageFile.value = "";
 editHint.textContent = "";
-imgPreview.style.display = "none";
+clearImagesState();
 }
 
 function fillForm(p){
 EDIT_KEY = p.key;
-PENDING_IMAGE_DATA = ""; // on garde la photo existante tant qu’on ne choisit pas une nouvelle
 pName.value = p.name || "";
 pPrice.value = p.priceDZD ?? "";
 pSizes.value = (p.sizes||[]).join(",");
 pCategory.value = p.category || "";
 pRef.value = p.ref || "";
 pDesc.value = p.description || "";
-pImageFile.value = "";
 editHint.textContent = "✏️ Modification : " + (p.name || "");
 
-// Preview de l’image existante
-if(p.image){
-imgPreviewTag.src = p.image;
-imgPreviewInfo.textContent = "Photo actuelle";
-imgPreview.style.display = "flex";
-}else{
-imgPreview.style.display = "none";
-}
+EXISTING_IMAGES = Array.isArray(p.images) ? p.images.slice() : [];
+NEW_IMAGES = [];
+REMOVED_INDEXES = new Set();
+pImagesFiles.value = "";
+renderThumbs();
 }
 
 function validateProduct(){
@@ -647,21 +779,111 @@ if(!Number.isFinite(price) || price<=0) return {ok:false,msg:"Prix DZD invalide"
 return {ok:true, data:{name, category, priceDZD:price, sizes, ref, description}};
 }
 
+function totalImagesCountAfter(){
+const keptExisting = EXISTING_IMAGES.filter((_, idx)=>!REMOVED_INDEXES.has(idx)).length;
+return keptExisting + NEW_IMAGES.length;
+}
+
+function renderThumbs(){
+const kept = EXISTING_IMAGES
+.map((src, idx)=>({src, type:"existing", idx}))
+.filter(x=>!REMOVED_INDEXES.has(x.idx));
+const added = NEW_IMAGES.map((src, idx)=>({src, type:"new", idx}));
+
+const all = [...kept, ...added];
+
+if(!all.length){
+thumbs.innerHTML = `<div class="small">Aucune photo sélectionnée.</div>`;
+return;
+}
+
+thumbs.innerHTML = all.map((x, i)=>`
+<div class="thumb" data-type="${x.type}" data-idx="${x.idx}">
+<img src="${esc(x.src)}" alt="photo">
+<div class="x">×</div>
+<div class="tag">${x.type === "existing" ? "Actuelle" : "Nouvelle"}</div>
+</div>
+`).join("");
+
+thumbs.querySelectorAll(".thumb").forEach(el=>{
+el.addEventListener("click", ()=>{
+const type = el.getAttribute("data-type");
+const idx = Number(el.getAttribute("data-idx"));
+
+if(type === "existing"){
+REMOVED_INDEXES.add(idx);
+}else{
+NEW_IMAGES.splice(idx, 1);
+}
+renderThumbs();
+});
+});
+}
+
+pImagesFiles.addEventListener("change", async ()=>{
+const files = Array.from(pImagesFiles.files || []);
+if(!files.length) return;
+
+// combien de places restantes ?
+const currentCount = totalImagesCountAfter();
+let remaining = MAX_IMAGES - currentCount;
+
+if(remaining <= 0){
+alert(`Max ${MAX_IMAGES} photos. Retire une photo avant d’en ajouter.`);
+pImagesFiles.value = "";
+return;
+}
+
+// ne garder que 'remaining' fichiers
+const toRead = files.slice(0, remaining);
+
+// validation taille
+for(const f of toRead){
+if(f.size > MAX_BYTES_PER_IMAGE){
+alert(`Photo trop grande: "${f.name}". Max ${(MAX_BYTES_PER_IMAGE/1024).toFixed(0)} Ko.`);
+pImagesFiles.value = "";
+return;
+}
+}
+
+// lire en base64
+const dataUrls = await Promise.all(toRead.map(fileToDataURL));
+NEW_IMAGES.push(...dataUrls);
+
+// reset input + refresh thumbs
+pImagesFiles.value = "";
+renderThumbs();
+});
+
+function fileToDataURL(file){
+return new Promise((resolve, reject)=>{
+const r = new FileReader();
+r.onerror = ()=>reject(new Error("read error"));
+r.onload = ()=>resolve(r.result);
+r.readAsDataURL(file);
+});
+}
+
+function buildFinalImages(){
+const keptExisting = EXISTING_IMAGES.filter((_, idx)=>!REMOVED_INDEXES.has(idx));
+return [...keptExisting, ...NEW_IMAGES].slice(0, MAX_IMAGES);
+}
+
 function saveProduct(){
 const v = validateProduct();
 if(!v.ok){ alert(v.msg); return; }
 
 const existing = EDIT_KEY ? ALL.find(x=>x.key===EDIT_KEY) : null;
 
-// image finale :
-// - si nouvelle photo choisie => PENDING_IMAGE_DATA
-// - sinon si edit => garder ancienne image
-// - sinon vide
-const finalImage = PENDING_IMAGE_DATA || existing?.image || "";
+const finalImages = buildFinalImages();
+if(finalImages.length > MAX_IMAGES){
+alert(`Max ${MAX_IMAGES} photos.`);
+return;
+}
 
 const data = {
 ...v.data,
-image: finalImage,
+images: finalImages,
 createdAt: existing?.createdAt || Date.now()
 };
 
@@ -702,16 +924,19 @@ if(adminPanelModal.classList.contains("hidden")) return;
 
 const rows = ALL.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
 if(!rows.length){
-adminTableBody.innerHTML = `<tr><td colspan="6">Aucun produit.</td></tr>`;
+adminTableBody.innerHTML = `<tr><td colspan="7">Aucun produit.</td></tr>`;
 return;
 }
 
-adminTableBody.innerHTML = rows.map(p=>`
+adminTableBody.innerHTML = rows.map(p=>{
+const photosCount = Array.isArray(p.images) ? p.images.length : 0;
+return `
 <tr>
 <td><b>${esc(p.name)}</b><div class="small">${p.ref ? "Réf: "+esc(p.ref) : ""}</div></td>
 <td>${esc(dzd(p.priceDZD))}</td>
 <td>${esc(p.category||"")}</td>
 <td>${esc((p.sizes||[]).join(", "))}</td>
+<td>${photosCount ? `📷 ${photosCount}` : "—"}</td>
 <td>${esc(formatDate(p.createdAt))}</td>
 <td>
 <div class="rowBtns">
@@ -720,7 +945,8 @@ adminTableBody.innerHTML = rows.map(p=>`
 </div>
 </td>
 </tr>
-`).join("");
+`;
+}).join("");
 
 adminTableBody.querySelectorAll("[data-edit]").forEach(btn=>{
 btn.addEventListener("click", ()=>{
@@ -750,7 +976,7 @@ name: v.name || "",
 category: v.category || "",
 ref: v.ref || "",
 description: v.description || "",
-image: v.image || "",
+images: Array.isArray(v.images) ? v.images : [],
 sizes: Array.isArray(v.sizes) ? v.sizes : [],
 priceDZD: Number(v.priceDZD || 0),
 createdAt: Number(v.createdAt || 0)
