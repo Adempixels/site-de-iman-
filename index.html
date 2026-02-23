@@ -1,1034 +1,225 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>shr-gbl — Boutique</title>
 
 <style>
 :root{
---ink:#2a1230;
---muted:rgba(42,18,48,.72);
 --pink:#ff4fa3;
 --pink2:#ff86c6;
---peach:#ffd2e7;
---mint:#b9ffd8;
---sky:#bfe6ff;
-
---card: rgba(255,255,255,.82);
---card2: rgba(255,255,255,.64);
---border: rgba(42,18,48,.14);
---shadow: 0 18px 50px rgba(0,0,0,.15);
---r:18px;
+--bg1:#fff0f8;
+--bg2:#ffe2f1;
+--card:rgba(255,255,255,.9);
+--border:rgba(255,79,163,.2);
+--shadow:0 20px 60px rgba(0,0,0,.15);
 }
 
 *{box-sizing:border-box}
 body{
 margin:0;
-font-family: Arial, sans-serif;
-color:var(--ink);
-min-height:100vh;
-
-/* Fond "monde des bisounours" (pastel, nuages, coeurs, arc-en-ciel) */
+font-family:Arial, sans-serif;
 background:
-radial-gradient(900px 600px at 15% 10%, rgba(255,79,163,.25), transparent 60%),
-radial-gradient(900px 650px at 85% 22%, rgba(255,134,198,.25), transparent 60%),
-radial-gradient(900px 650px at 50% 90%, rgba(191,230,255,.35), transparent 60%),
-linear-gradient(180deg, #fff1f8 0%, #ffe3f1 45%, #e9fff5 100%);
+radial-gradient(circle at 20% 20%, rgba(255,79,163,.25), transparent 60%),
+radial-gradient(circle at 80% 10%, rgba(255,134,198,.25), transparent 60%),
+linear-gradient(180deg,var(--bg1),var(--bg2));
+color:#2b1030;
+min-height:100vh;
 }
 
-/* Décor pastel (nuages/étoiles/coeurs) en SVG */
-.decor{
-position:fixed; inset:0; pointer-events:none; z-index:-1;
-background-image:
-url("data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?>\
-<svg xmlns='http://www.w3.org/2000/svg' width='900' height='700' viewBox='0 0 900 700'>\
-<defs>\
-<linearGradient id='g' x1='0' x2='1'>\
-<stop offset='0' stop-color='%23ffb4d8' stop-opacity='0.35'/>\
-<stop offset='1' stop-color='%23bfe6ff' stop-opacity='0.35'/>\
-</linearGradient>\
-</defs>\
-<rect width='900' height='700' fill='none'/>\
-<g opacity='0.35' fill='white'>\
-<ellipse cx='140' cy='120' rx='70' ry='38'/>\
-<ellipse cx='190' cy='110' rx='55' ry='32'/>\
-<ellipse cx='230' cy='125' rx='75' ry='40'/>\
-<ellipse cx='720' cy='160' rx='78' ry='42'/>\
-<ellipse cx='770' cy='150' rx='60' ry='34'/>\
-<ellipse cx='810' cy='165' rx='82' ry='44'/>\
-<ellipse cx='260' cy='520' rx='85' ry='45'/>\
-<ellipse cx='315' cy='510' rx='62' ry='36'/>\
-<ellipse cx='360' cy='525' rx='88' ry='48'/>\
-</g>\
-<g opacity='0.18' fill='none' stroke-linecap='round'>\
-<path d='M80,620 C200,520 360,500 500,560 C620,610 740,600 860,520' stroke='%23ff4fa3' stroke-width='22'/>\
-<path d='M80,620 C200,520 360,500 500,560 C620,610 740,600 860,520' stroke='%23ff86c6' stroke-width='16'/>\
-<path d='M80,620 C200,520 360,500 500,560 C620,610 740,600 860,520' stroke='%23ffd2e7' stroke-width='10'/>\
-<path d='M80,620 C200,520 360,500 500,560 C620,610 740,600 860,520' stroke='%23b9ffd8' stroke-width='6'/>\
-</g>\
-<g opacity='0.22' fill='%23ff4fa3'>\
-<path d='M135 265c-14-26-55-16-55 14 0 31 55 55 55 55s55-24 55-55c0-30-41-40-55-14z'/>\
-<path d='M760 300c-12-22-46-14-46 12 0 26 46 46 46 46s46-20 46-46c0-26-34-34-46-12z'/>\
-<path d='M560 120c-10-18-38-11-38 10 0 22 38 38 38 38s38-16 38-38c0-21-28-28-38-10z'/>\
-</g>\
-<g opacity='0.22' fill='url(%23g)'>\
-<path d='M410 250l10 22 24 3-18 16 5 24-21-12-21 12 5-24-18-16 24-3z'/>\
-<path d='M650 430l8 16 18 3-13 12 3 18-16-9-16 9 3-18-13-12 18-3z'/>\
-</g>\
-</svg>");
-background-size: 900px 700px;
-background-repeat: repeat;
-filter: saturate(1.05);
+.container{
+width:min(1200px,92%);
+margin:30px auto 120px;
 }
 
-.wrap{width:min(1220px,92vw); margin:18px auto 96px;}
-
-header{
-display:flex; justify-content:space-between; align-items:flex-start;
-gap:14px; flex-wrap:wrap;
-margin-bottom:14px;
-}
-
-.brand{
-display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-}
-
-.logo{
-width:90px; height:90px; border-radius:50%;
-border: 1px solid rgba(255,79,163,.25);
-background: rgba(255,255,255,.65);
-box-shadow: var(--shadow);
-object-fit: cover;
-}
-
-h1{margin:0; font-size:34px; letter-spacing:.2px;}
-.sub{margin:6px 0 0; color:var(--muted); line-height:1.35;}
-
-.pill{
-border:1px solid var(--border);
-background:rgba(255,255,255,.72);
-border-radius:999px;
-padding:10px 14px;
-box-shadow: var(--shadow);
-white-space:nowrap;
-color: var(--muted);
-font-weight:700;
-}
-
-.gridTop{
-display:grid;
-grid-template-columns: 1.2fr .8fr;
-gap:14px;
-margin-bottom:14px;
-}
-@media (max-width:900px){ .gridTop{grid-template-columns:1fr} }
+h1{margin:0;font-size:34px}
+.sub{color:#5c3a60;margin-top:8px}
 
 .card{
+background:var(--card);
 border:1px solid var(--border);
-background: var(--card);
-border-radius: var(--r);
-box-shadow: var(--shadow);
-padding:16px;
-backdrop-filter: blur(8px);
-}
-
-.title2{margin:0 0 10px; font-size:18px;}
-.muted{color:var(--muted)}
-.tiny{font-size:12px; color:var(--muted)}
-
-.notice{
-margin-top:10px;
-padding:12px;
-border-radius:16px;
-border:1px solid rgba(255,79,163,.20);
-background: linear-gradient(90deg, rgba(255,79,163,.14), rgba(191,230,255,.18));
-color: rgba(42,18,48,.92);
-line-height:1.4;
-font-size:13px;
-}
-
-.controls{
-display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-}
-
-input, select, button, textarea{
-font-family: inherit;
-border-radius: 14px;
-border:1px solid var(--border);
-background: rgba(255,255,255,.88);
-color: var(--ink);
-padding:10px 12px;
-outline:none;
-}
-input::placeholder, textarea::placeholder{color:rgba(42,18,48,.45)}
-
-button{cursor:pointer; font-weight:900}
-.btn{
-border:none;
-color:#1b0a14;
-background: linear-gradient(90deg, var(--pink) 0%, var(--pink2) 100%);
-padding:11px 14px;
-border-radius: 14px;
-box-shadow: 0 10px 24px rgba(255,79,163,.20);
-}
-.btn:hover{transform: translateY(-1px); filter:brightness(.99)}
-.btn.ghost{
-border:1px solid rgba(255,79,163,.25);
-background: linear-gradient(90deg, rgba(255,79,163,.10), rgba(255,210,231,.18));
-color: var(--ink);
-box-shadow:none;
-}
-.btn.danger{
-border:none;
-background: linear-gradient(90deg, #ff5b5b, #ff9a9a);
-color:#240909;
+border-radius:20px;
+padding:20px;
+box-shadow:var(--shadow);
+margin-bottom:20px;
 }
 
 .products{
 display:grid;
-grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-gap:12px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:15px;
 }
 
-.prod{
-border:1px solid rgba(255,79,163,.18);
-background: rgba(255,255,255,.88);
-border-radius: 18px;
+.product{
+background:white;
+border-radius:18px;
 overflow:hidden;
-box-shadow: var(--shadow);
+box-shadow:var(--shadow);
 display:flex;
 flex-direction:column;
-min-height:100%;
-}
-.img{
-height: 220px;
-background: rgba(255,210,231,.22);
-display:flex; align-items:center; justify-content:center;
-border-bottom:1px solid rgba(255,79,163,.16);
-}
-.img img{width:100%; height:100%; object-fit:cover; display:block}
-.placeholder{
-font-weight:900;
-color: rgba(42,18,48,.65);
-padding: 16px;
-text-align:center;
-line-height:1.35;
 }
 
-.prodBody{
-padding:14px;
+.product img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.product-body{
+padding:15px;
 display:flex;
 flex-direction:column;
 gap:10px;
 flex:1;
 }
 
-.titleRow{
-display:flex;
-justify-content:space-between;
-gap:10px;
-align-items:flex-start;
-}
-.name{font-weight:900; font-size:16px; line-height:1.15;}
 .price{
-white-space:nowrap;
-font-weight:900;
-padding:7px 11px;
-border-radius:999px;
-border:1px solid rgba(255,79,163,.30);
-background: rgba(255,79,163,.10);
-color:#3a0f1f;
+font-weight:bold;
+color:#a0005f;
 }
 
-.meta{display:flex; flex-wrap:wrap; gap:8px;}
-.tag{
-font-size:12px;
-border:1px solid rgba(42,18,48,.12);
-background: rgba(255,255,255,.70);
-padding:6px 10px;
-border-radius:999px;
-color: rgba(42,18,48,.78);
+button{
+padding:10px 14px;
+border-radius:12px;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
 
-.desc{font-size:13px; color: rgba(42,18,48,.75); line-height:1.45;}
-.actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:auto;}
+.btn{
+background:linear-gradient(90deg,var(--pink),var(--pink2));
+color:white;
+}
 
-/* Admin bar */
-.adminBar{
+.btn-outline{
+background:white;
+border:1px solid var(--pink);
+color:var(--pink);
+}
+
+.admin-btn{
 position:fixed;
-left:12px; right:12px; bottom:12px;
-display:flex; justify-content:space-between; align-items:center;
-gap:10px;
-z-index: 40;
-pointer-events:none;
+bottom:15px;
+right:15px;
+background:white;
+border:1px solid var(--border);
+border-radius:50px;
+padding:10px 15px;
+box-shadow:var(--shadow);
+cursor:pointer;
 }
-.adminChip{
-pointer-events:auto;
-border:1px solid rgba(255,79,163,.18);
-background: rgba(255,255,255,.78);
-backdrop-filter: blur(10px);
-border-radius:999px;
-padding:10px 12px;
-box-shadow: var(--shadow);
-font-size:12px;
-color: var(--muted);
-font-weight:700;
-}
-.adminBar button{pointer-events:auto;}
 
-/* Modals */
 .modal{
-position:fixed; inset:0;
-background: rgba(0,0,0,.55);
-display:flex; align-items:center; justify-content:center;
-padding:16px;
-z-index: 60;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+display:flex;
+align-items:center;
+justify-content:center;
 }
+
 .modal.hidden{display:none}
-.modalCard{
-width:min(880px, 96vw);
-background: rgba(255,255,255,.92);
-border:1px solid rgba(255,79,163,.18);
-border-radius: 18px;
-box-shadow: var(--shadow);
-padding: 14px 14px 16px;
-color: var(--ink);
-}
-.modalHead{
-display:flex; justify-content:space-between; align-items:center; gap:10px;
-margin-bottom:8px;
-}
-textarea{width:100%; min-height:110px; resize:vertical; background: rgba(255,255,255,.95);}
 
-.twoCol{
-display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+.modal-content{
+background:white;
+padding:25px;
+border-radius:20px;
+width:90%;
+max-width:400px;
 }
-@media (max-width:900px){ .twoCol{grid-template-columns:1fr} }
-
-table{
-width:100%;
-border-collapse: collapse;
-margin-top:10px;
-overflow:hidden;
-border-radius: 14px;
-border:1px solid rgba(42,18,48,.10);
-background: rgba(255,255,255,.92);
-}
-th, td{
-padding:10px;
-border-bottom:1px solid rgba(42,18,48,.08);
-text-align:left;
-vertical-align:top;
-font-size:13px;
-}
-th{
-background: rgba(255,79,163,.08);
-color: rgba(42,18,48,.85);
-font-weight:900;
-}
-tr:last-child td{border-bottom:none}
-.rowBtns{display:flex; gap:8px; flex-wrap:wrap}
-.hr{height:1px; background:rgba(42,18,48,.10); margin:12px 0;}
 </style>
 
-<!-- Firebase compat (HTML simple) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 
 <body>
-<div class="decor"></div>
 
-<div class="wrap">
-<header>
-<div class="brand">
-<!-- Optionnel: ajoute un fichier logo.jpg à côté du index.html -->
-<img class="logo" src="logo.jpg" alt="Logo shr-gbl" onerror="this.style.display='none'">
-<div>
+<div class="container">
 <h1>shr-gbl</h1>
 <p class="sub">
-Boutique de vêtements • Prix en <b>DZD</b> • Pas d’achat en ligne : contactez-nous pour infos / réservation.<br>
-🚚 Livraison : <b>villes proches d’Oulradachache</b> (et alentours) uniquement.
+Boutique de vêtements • Prix en DZD • Pas d’achat en ligne.<br>
+🚚 Livraison disponible à <b>Ouled Rechache</b> et dans les villes proches.
 </p>
-</div>
-</div>
-<div class="pill" id="countPill">0 article(s)</div>
-</header>
-
-<section class="gridTop">
-<div class="card">
-<h2 class="title2">Catalogue</h2>
-<div class="controls">
-<input id="search" type="text" placeholder="Rechercher (nom, description, référence)..." />
-<select id="cat"><option value="all">Toutes catégories</option></select>
-<select id="size"><option value="all">Toutes tailles</option></select>
-<select id="sort">
-<option value="new">Nouveautés</option>
-<option value="priceAsc">Prix (croissant)</option>
-<option value="priceDesc">Prix (décroissant)</option>
-</select>
-<button class="btn ghost" id="resetBtn" type="button">Réinitialiser</button>
-</div>
-
-<div class="notice">
-💖 Cliquez sur <b>Contacter</b> pour : <b>Appeler</b> / <b>WhatsApp message</b> / <b>WhatsApp appel</b> / <b>Email</b>.<br>
-❌ Aucun achat en ligne.
-</div>
-
-<p class="tiny" style="margin:10px 0 0;">
-Les produits se chargent depuis Firebase Realtime Database (noeud <b>products</b>).
-</p>
-</div>
 
 <div class="card">
-<h2 class="title2">Contact</h2>
-<p class="muted" style="margin:0 0 8px;">
-📞 Téléphone : <b id="phoneText"></b><br>
-✉️ Email : <b id="emailText"></b>
-</p>
-<p class="tiny" style="margin:0;">
-Les clients ne rentrent aucun numéro : utilisez seulement les boutons <b>Appeler</b>, <b>WhatsApp</b> ou <b>Email</b>.
-</p>
-</div>
-</section>
-
-<section class="products" id="products">
-<div class="card"><p class="muted" style="margin:0;">Chargement des produits…</p></div>
-</section>
+<h3>Contact</h3>
+<button class="btn" onclick="openWhatsApp()">📲 Ouvrir WhatsApp</button>
+<button class="btn-outline" onclick="sendEmail()">✉️ Envoyer un Email</button>
 </div>
 
-<!-- Admin bottom bar -->
-<div class="adminBar">
-<div class="adminChip" id="statusChip">Firebase: …</div>
-<button class="btn ghost" id="adminBtn" type="button">🔐 Admin</button>
-</div>
-
-<!-- Modal: Contact produit -->
-<div class="modal hidden" id="msgModal">
-<div class="modalCard">
-<div class="modalHead">
-<div>
-<h3 style="margin:0;">Contacter pour ce vêtement</h3>
-<p class="tiny" id="msgMeta" style="margin:6px 0 0;"></p>
-</div>
-<button class="btn ghost" id="closeMsgModal" type="button">Fermer</button>
-</div>
-
-<div class="card" style="padding:14px; background:var(--card2);">
-<div class="muted" style="margin-bottom:8px;">Message (vous pouvez modifier)</div>
-<textarea id="messageBox" placeholder="Bonjour, je suis intéressé(e) par ce vêtement..."></textarea>
-</div>
-
-<div class="controls" style="justify-content:flex-end; margin-top:10px;">
-<button class="btn ghost" id="copyMsgBtn" type="button">📋 Copier</button>
-<button class="btn ghost" id="emailBtn" type="button">✉️ Email</button>
-<button class="btn ghost" id="waCallBtn" type="button">📲 Appel WhatsApp</button>
-<button class="btn ghost" id="waMsgBtn" type="button">💬 WhatsApp</button>
-<button class="btn" id="callBtn" type="button">📞 Appeler</button>
-</div>
-
-<p class="tiny" style="margin-top:10px;">
-Sur WhatsApp : pour appeler, l’app s’ouvre, puis vous appuyez sur l’icône d’appel.
-</p>
+<div class="products" id="products">
+Chargement...
 </div>
 </div>
 
-<!-- Modal: Admin login -->
-<div class="modal hidden" id="adminLoginModal">
-<div class="modalCard">
-<div class="modalHead">
-<h3 style="margin:0;">Connexion Admin</h3>
-<button class="btn ghost" id="closeAdminLogin" type="button">Fermer</button>
-</div>
-<p class="muted" style="margin:6px 0 10px;">Entrez le mot de passe pour gérer les produits.</p>
+<button class="admin-btn" onclick="openAdmin()">🔐 Admin</button>
 
-<div class="controls">
-<input id="adminPass" type="password" placeholder="Mot de passe admin" style="flex:1; min-width:220px;" />
-<button class="btn" id="adminLoginBtn" type="button">Se connecter</button>
-</div>
-</div>
-</div>
-
-<!-- Modal: Admin panel -->
-<div class="modal hidden" id="adminPanelModal">
-<div class="modalCard">
-<div class="modalHead">
-<div>
-<h3 style="margin:0;">Admin — Produits</h3>
-<p class="tiny" style="margin:6px 0 0;">Ajouter / modifier / supprimer (Firebase)</p>
-</div>
-<button class="btn ghost" id="closeAdminPanel" type="button">Fermer</button>
-</div>
-
-<div class="card" style="padding:14px; background:var(--card2);">
-<h4 style="margin:0 0 10px;">➕ Ajouter / ✏️ Modifier un produit</h4>
-
-<div class="twoCol">
-<div class="controls" style="flex-direction:column; align-items:stretch;">
-<input id="pName" placeholder="Nom du produit" />
-<input id="pCategory" placeholder="Catégorie (ex: Robes)" />
-<input id="pSizes" placeholder="Tailles (ex: S,M,L)" />
-</div>
-<div class="controls" style="flex-direction:column; align-items:stretch;">
-<input id="pPrice" type="number" placeholder="Prix en DZD" />
-<input id="pImage" placeholder="Lien image (optionnel)" />
-<input id="pRef" placeholder="Référence (optionnel)" />
-</div>
-</div>
-
-<div class="controls" style="margin-top:10px;">
-<textarea id="pDesc" placeholder="Description"></textarea>
-</div>
-
-<div class="controls" style="justify-content:flex-end; margin-top:10px;">
-<span class="tiny" id="editHint" style="margin-right:auto;"></span>
-<button class="btn ghost" id="clearFormBtn" type="button">Effacer</button>
-<button class="btn" id="saveProductBtn" type="button">Enregistrer</button>
-</div>
-</div>
-
-<div class="hr"></div>
-
-<div class="card" style="padding:14px; background:var(--card2);">
-<h4 style="margin:0 0 10px;">📦 Tous les produits</h4>
-<div class="tiny">Clique “Modifier” pour remplir le formulaire, ou “Supprimer”.</div>
-
-<table>
-<thead>
-<tr>
-<th>Produit</th>
-<th>Prix</th>
-<th>Catégorie</th>
-<th>Tailles</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="adminTableBody">
-<tr><td colspan="5" class="muted">Chargement…</td></tr>
-</tbody>
-</table>
-</div>
+<div class="modal hidden" id="adminModal">
+<div class="modal-content">
+<h3>Connexion Admin</h3>
+<input type="password" id="adminPass" placeholder="Mot de passe" style="width:100%;padding:10px;margin-bottom:10px;">
+<button class="btn" onclick="loginAdmin()">Connexion</button>
 </div>
 </div>
 
 <script>
-/* =========================
-Firebase config (compat)
-========================= */
 const firebaseConfig = {
 apiKey: "AIzaSyBXn_hSQShtznZYPcLl-66jKDTSoQttyxg",
 authDomain: "site-de-iman.firebaseapp.com",
 databaseURL: "https://site-de-iman-default-rtdb.europe-west1.firebasedatabase.app",
-projectId: "site-de-iman",
-storageBucket: "site-de-iman.firebasestorage.app",
-messagingSenderId: "121600066028",
-appId: "1:121600066028:web:b760853a45f000c687c0c9",
-measurementId: "G-JQR3D8F1C2"
+projectId: "site-de-iman"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const productsRef = db.ref("products");
 
-/* =========================
-Admin (solution 1)
-========================= */
-const ADMIN_PASSWORD = "DzShr@Gbl$7281";
-
-/* =========================
-Contact boutique FIXE (non modifiable par les visiteurs)
-========================= */
 const SHOP_PHONE = "213655622411";
 const SHOP_EMAIL = "imanboutique67@gmail.com";
+const ADMIN_PASSWORD = "DzShr@Gbl$7281";
 
-document.getElementById("phoneText").textContent = "+" + SHOP_PHONE;
-document.getElementById("emailText").textContent = SHOP_EMAIL;
-
-function getShopContact(){
-return { phone: SHOP_PHONE, email: SHOP_EMAIL };
-}
-
-function normalizePhone(phone){
-return String(phone || "").replace(/[^\d]/g, "");
-}
-
-/* =========================
-Helpers
-========================= */
-const $ = (id) => document.getElementById(id);
-
-function escapeHtml(str){
-return String(str ?? "").replace(/[&<>"']/g, (m) => ({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-}[m]));
-}
-
-function dzd(n){
-const s = Number(n || 0).toLocaleString("fr-FR");
-return `${s} DZD`;
-}
-
-function toSizesArr(s){
-return String(s||"").split(",").map(x=>x.trim()).filter(Boolean);
-}
-
-function unique(arr){ return Array.from(new Set(arr)); }
-
-/* =========================
-UI refs
-========================= */
-const productsEl = $("products");
-const countPill = $("countPill");
-const statusChip = $("statusChip");
-
-const searchEl = $("search");
-const catEl = $("cat");
-const sizeEl = $("size");
-const sortEl = $("sort");
-const resetBtn = $("resetBtn");
-
-const msgModal = $("msgModal");
-const closeMsgModal = $("closeMsgModal");
-const msgMeta = $("msgMeta");
-const messageBox = $("messageBox");
-const waMsgBtn = $("waMsgBtn");
-const waCallBtn = $("waCallBtn");
-const callBtn = $("callBtn");
-const emailBtn = $("emailBtn");
-const copyMsgBtn = $("copyMsgBtn");
-
-const adminBtn = $("adminBtn");
-const adminLoginModal = $("adminLoginModal");
-const closeAdminLogin = $("closeAdminLogin");
-const adminPass = $("adminPass");
-const adminLoginBtn = $("adminLoginBtn");
-
-const adminPanelModal = $("adminPanelModal");
-const closeAdminPanel = $("closeAdminPanel");
-
-const pName = $("pName");
-const pCategory = $("pCategory");
-const pSizes = $("pSizes");
-const pPrice = $("pPrice");
-const pImage = $("pImage");
-const pRef = $("pRef");
-const pDesc = $("pDesc");
-const saveProductBtn = $("saveProductBtn");
-const clearFormBtn = $("clearFormBtn");
-const editHint = $("editHint");
-const adminTableBody = $("adminTableBody");
-
-let ALL_PRODUCTS = []; // {key, ...data}
-let ACTIVE_PRODUCT = null; // for contact modal
-let EDIT_KEY = null; // admin edit key
-
-/* =========================
-Filters
-========================= */
-function buildFilters(list){
-const cats = unique(list.map(p => p.category).filter(Boolean)).sort((a,b)=>a.localeCompare(b,"fr"));
-const sizes = unique(list.flatMap(p => Array.isArray(p.sizes)? p.sizes : []).filter(Boolean)).sort();
-
-const prevCat = catEl.value || "all";
-const prevSize = sizeEl.value || "all";
-
-catEl.innerHTML = `<option value="all">Toutes catégories</option>` +
-cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
-
-sizeEl.innerHTML = `<option value="all">Toutes tailles</option>` +
-sizes.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
-
-if([...catEl.options].some(o=>o.value===prevCat)) catEl.value = prevCat;
-if([...sizeEl.options].some(o=>o.value===prevSize)) sizeEl.value = prevSize;
-}
-
-function getFiltered(){
-const q = (searchEl.value || "").trim().toLowerCase();
-const cat = catEl.value;
-const size = sizeEl.value;
-const sort = sortEl.value;
-
-let list = ALL_PRODUCTS.slice();
-
-if(q){
-list = list.filter(p =>
-(p.name || "").toLowerCase().includes(q) ||
-(p.description || "").toLowerCase().includes(q) ||
-(p.ref || "").toLowerCase().includes(q)
-);
-}
-if(cat !== "all") list = list.filter(p => p.category === cat);
-if(size !== "all") list = list.filter(p => (p.sizes || []).includes(size));
-
-if(sort === "priceAsc") list.sort((a,b)=> (a.priceDZD||0) - (b.priceDZD||0));
-else if(sort === "priceDesc") list.sort((a,b)=> (b.priceDZD||0) - (a.priceDZD||0));
-else list.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
-
-return list;
-}
-
-/* =========================
-Render products
-========================= */
-function renderProducts(){
-const list = getFiltered();
-countPill.textContent = `${list.length} article(s)`;
-productsEl.innerHTML = "";
-
-if(!list.length){
-productsEl.innerHTML = `<div class="card"><p class="muted" style="margin:0;">Aucun article trouvé.</p></div>`;
-return;
-}
-
-list.forEach(p => {
-const card = document.createElement("article");
-card.className = "prod";
-
-const img = document.createElement("div");
-img.className = "img";
-if(p.image){
-const im = document.createElement("img");
-im.src = p.image;
-im.alt = p.name || "Produit";
-img.appendChild(im);
-}else{
-const ph = document.createElement("div");
-ph.className = "placeholder";
-ph.textContent = "📷 Photo à ajouter";
-img.appendChild(ph);
-}
-
-const body = document.createElement("div");
-body.className = "prodBody";
-
-const sizesText = (p.sizes || []).join(", ") || "—";
-const refText = p.ref ? ` • Réf: ${escapeHtml(p.ref)}` : "";
-
-body.innerHTML = `
-<div class="titleRow">
-<div>
-<div class="name">${escapeHtml(p.name)}</div>
-<div class="tiny muted" style="margin-top:4px;">${escapeHtml(p.category || "")}${refText}</div>
-</div>
-<div class="price">${dzd(p.priceDZD)}</div>
-</div>
-
-<div class="meta">
-<div class="tag">Tailles: <b>${escapeHtml(sizesText)}</b></div>
-</div>
-
-<div class="desc">${escapeHtml(p.description || "")}</div>
-
-<div class="actions">
-<button class="btn ghost" type="button" data-action="details">Détails</button>
-<button class="btn" type="button" data-action="contact">Contacter</button>
-</div>
-
-<div class="tiny muted">Achat en ligne : <b>non</b> • Contactez-nous pour réserver / demander infos</div>
-`;
-
-body.querySelector('[data-action="details"]').addEventListener("click", () => {
-alert(
-`${p.name}\n\n` +
-`Catégorie: ${p.category || "-"}\n` +
-`${p.ref ? "Référence: "+p.ref+"\n" : ""}` +
-`Tailles: ${(p.sizes||[]).join(", ") || "-"}\n` +
-`Prix: ${dzd(p.priceDZD)}\n\n` +
-`${p.description || ""}`
-);
-});
-
-body.querySelector('[data-action="contact"]').addEventListener("click", () => openContactModal(p));
-
-card.appendChild(img);
-card.appendChild(body);
-productsEl.appendChild(card);
-});
-}
-
-/* =========================
-Contact modal actions
-========================= */
-function openContactModal(product){
-ACTIVE_PRODUCT = product;
-
-const sizesText = (product.sizes || []).join(", ") || "—";
-const refLine = product.ref ? `\nRéf: ${product.ref}` : "";
-
-const msg =
-`Bonjour,
-Je suis intéressé(e) par : ${product.name}${refLine}
-Prix: ${dzd(product.priceDZD)}
-Tailles: ${sizesText}
-
-Est-ce disponible ? Merci.`;
-
-messageBox.value = msg;
-msgMeta.textContent = `${product.name} • ${dzd(product.priceDZD)}`;
-msgModal.classList.remove("hidden");
-}
-
-function closeContactModal(){
-msgModal.classList.add("hidden");
-ACTIVE_PRODUCT = null;
-}
-
-function sendWhatsAppMessage(){
-const { phone } = getShopContact();
-const clean = normalizePhone(phone);
-if(!clean){ alert("Numéro boutique manquant."); return; }
-
-const text = encodeURIComponent(messageBox.value || "");
-window.open(`https://wa.me/${clean}?text=${text}`, "_blank");
-}
-
-function sendWhatsAppCall(){
-const { phone } = getShopContact();
-const clean = normalizePhone(phone);
-if(!clean){ alert("Numéro boutique manquant."); return; }
-
-const deep = `whatsapp://send?phone=${clean}`;
-window.location.href = deep;
-
-setTimeout(() => {
-window.open(`https://wa.me/${clean}`, "_blank");
-}, 600);
-}
-
-function callNormal(){
-const { phone } = getShopContact();
-const clean = normalizePhone(phone);
-if(!clean){ alert("Numéro boutique manquant."); return; }
-window.location.href = `tel:+${clean}`;
+function openWhatsApp(){
+window.open("https://wa.me/"+SHOP_PHONE,"_blank");
 }
 
 function sendEmail(){
-const { email } = getShopContact();
-if(!email){ alert("Email boutique manquant."); return; }
-const subject = encodeURIComponent(`shr-gbl — Demande d'information`);
-const body = encodeURIComponent(messageBox.value || "");
-window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+window.location.href = "mailto:"+SHOP_EMAIL;
 }
 
-function copyMsg(){
-const txt = messageBox.value || "";
-navigator.clipboard?.writeText(txt).then(()=>alert("✅ Message copié !")).catch(()=>alert("Copie impossible."));
+function openAdmin(){
+document.getElementById("adminModal").classList.remove("hidden");
 }
 
-/* =========================
-Admin
-========================= */
-function openAdminLogin(){ adminPass.value=""; adminLoginModal.classList.remove("hidden"); setTimeout(()=>adminPass.focus(), 50); }
-function closeAdminLoginModal(){ adminLoginModal.classList.add("hidden"); }
-function openAdminPanel(){ adminPanelModal.classList.remove("hidden"); renderAdminTable(); }
-function closeAdminPanelModal(){ adminPanelModal.classList.add("hidden"); }
-
-function clearForm(){
-EDIT_KEY = null;
-pName.value = "";
-pCategory.value = "";
-pSizes.value = "";
-pPrice.value = "";
-pImage.value = "";
-pRef.value = "";
-pDesc.value = "";
-editHint.textContent = "";
-}
-
-function fillFormForEdit(p){
-EDIT_KEY = p.key;
-pName.value = p.name || "";
-pCategory.value = p.category || "";
-pSizes.value = (p.sizes || []).join(",");
-pPrice.value = p.priceDZD ?? "";
-pImage.value = p.image || "";
-pRef.value = p.ref || "";
-pDesc.value = p.description || "";
-editHint.textContent = `✏️ Modification: ${p.name || ""}`;
-}
-
-function validateProduct(){
-const name = pName.value.trim();
-const category = pCategory.value.trim();
-const sizesArr = toSizesArr(pSizes.value);
-const price = Number(pPrice.value);
-const image = pImage.value.trim();
-const ref = pRef.value.trim();
-const desc = pDesc.value.trim();
-
-if(!name) return { ok:false, msg:"Nom du produit obligatoire." };
-if(!category) return { ok:false, msg:"Catégorie obligatoire." };
-if(!Number.isFinite(price) || price <= 0) return { ok:false, msg:"Prix DZD invalide." };
-
-return {
-ok:true,
-data:{
-name,
-category,
-sizes: sizesArr,
-priceDZD: price,
-image,
-ref,
-description: desc,
-createdAt: Date.now()
-}
-};
-}
-
-function saveProduct(){
-const v = validateProduct();
-if(!v.ok){ alert(v.msg); return; }
-
-if(EDIT_KEY){
-const existing = ALL_PRODUCTS.find(x=>x.key===EDIT_KEY);
-const data = { ...v.data };
-if(existing && existing.createdAt) data.createdAt = existing.createdAt;
-
-productsRef.child(EDIT_KEY).set(data).then(()=>{
-alert("✅ Produit mis à jour !");
-clearForm();
-renderAdminTable();
-}).catch(err=>{
-console.error(err);
-alert("❌ Erreur Firebase (vérifie les Rules).");
-});
+function loginAdmin(){
+const pass=document.getElementById("adminPass").value;
+if(pass===ADMIN_PASSWORD){
+alert("Connexion réussie.");
+document.getElementById("adminModal").classList.add("hidden");
 }else{
-productsRef.push(v.data).then(()=>{
-alert("✅ Produit ajouté !");
-clearForm();
-renderAdminTable();
-}).catch(err=>{
-console.error(err);
-alert("❌ Erreur Firebase (vérifie les Rules).");
-});
+alert("Mot de passe incorrect");
 }
 }
 
-function deleteProduct(key){
-if(!confirm("Supprimer ce produit ?")) return;
-productsRef.child(key).remove().catch(err=>{
-console.error(err);
-alert("❌ Erreur suppression.");
-});
-}
-
-function renderAdminTable(){
-if(adminPanelModal.classList.contains("hidden")) return;
-
-const rows = ALL_PRODUCTS.slice().sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
-if(!rows.length){
-adminTableBody.innerHTML = `<tr><td colspan="5" class="muted">Aucun produit.</td></tr>`;
-return;
-}
-
-adminTableBody.innerHTML = rows.map(p=>`
-<tr>
-<td>
-<b>${escapeHtml(p.name)}</b>
-<div class="tiny muted">${escapeHtml(p.description || "")}</div>
-</td>
-<td>${escapeHtml(dzd(p.priceDZD))}</td>
-<td>${escapeHtml(p.category || "")}</td>
-<td>${escapeHtml((p.sizes||[]).join(", "))}</td>
-<td>
-<div class="rowBtns">
-<button class="btn ghost" type="button" data-edit="${p.key}">Modifier</button>
-<button class="btn danger" type="button" data-del="${p.key}">Supprimer</button>
-</div>
-</td>
-</tr>
-`).join("");
-
-adminTableBody.querySelectorAll("[data-edit]").forEach(btn=>{
-btn.addEventListener("click", ()=>{
-const key = btn.getAttribute("data-edit");
-const p = ALL_PRODUCTS.find(x=>x.key===key);
-if(p) fillFormForEdit(p);
-});
-});
-
-adminTableBody.querySelectorAll("[data-del]").forEach(btn=>{
-btn.addEventListener("click", ()=>{
-const key = btn.getAttribute("data-del");
-deleteProduct(key);
-});
-});
-}
-
-/* =========================
-Firebase live sync
-========================= */
-statusChip.textContent = "Firebase: connexion…";
-
-productsRef.on("value", (snap)=>{
-const items = [];
+productsRef.on("value",(snap)=>{
+let html="";
 snap.forEach(child=>{
-items.push({ key: child.key, ...(child.val()||{}) });
+const p=child.val();
+html+=`
+<div class="product">
+<img src="${p.image||''}">
+<div class="product-body">
+<b>${p.name}</b>
+<div>${p.description||''}</div>
+<div class="price">${p.priceDZD||0} DZD</div>
+<button class="btn" onclick="openWhatsApp()">Contacter</button>
+</div>
+</div>`;
 });
-
-ALL_PRODUCTS = items.map(p=>({
-...p,
-sizes: Array.isArray(p.sizes) ? p.sizes : [],
-priceDZD: Number(p.priceDZD || 0),
-createdAt: Number(p.createdAt || 0)
-}));
-
-buildFilters(ALL_PRODUCTS);
-renderProducts();
-renderAdminTable();
-statusChip.textContent = "Firebase: ✅ connecté";
-}, (err)=>{
-console.error(err);
-statusChip.textContent = "Firebase: ❌ erreur";
-productsEl.innerHTML = `<div class="card"><p class="muted" style="margin:0;">Erreur de lecture Firebase. Vérifie les Rules et databaseURL.</p></div>`;
+document.getElementById("products").innerHTML=html||"Aucun produit.";
 });
-
-/* =========================
-Events
-========================= */
-searchEl.addEventListener("input", renderProducts);
-catEl.addEventListener("change", renderProducts);
-sizeEl.addEventListener("change", renderProducts);
-sortEl.addEventListener("change", renderProducts);
-
-resetBtn.addEventListener("click", ()=>{
-searchEl.value = "";
-catEl.value = "all";
-sizeEl.value = "all";
-sortEl.value = "new";
-renderProducts();
-});
-
-// Modal contact
-closeMsgModal.addEventListener("click", closeContactModal);
-msgModal.addEventListener("click", (e)=>{ if(e.target===msgModal) closeContactModal(); });
-waMsgBtn.addEventListener("click", sendWhatsAppMessage);
-waCallBtn.addEventListener("click", sendWhatsAppCall);
-callBtn.addEventListener("click", callNormal);
-emailBtn.addEventListener("click", sendEmail);
-copyMsgBtn.addEventListener("click", copyMsg);
-
-// Admin
-adminBtn.addEventListener("click", openAdminLogin);
-closeAdminLogin.addEventListener("click", closeAdminLoginModal);
-adminLoginModal.addEventListener("click", (e)=>{ if(e.target===adminLoginModal) closeAdminLoginModal(); });
-
-adminLoginBtn.addEventListener("click", ()=>{
-if(adminPass.value === ADMIN_PASSWORD){
-closeAdminLoginModal();
-openAdminPanel();
-}else{
-alert("❌ Mot de passe incorrect");
-}
-});
-adminPass.addEventListener("keydown", (e)=>{ if(e.key==="Enter") adminLoginBtn.click(); });
-
-closeAdminPanel.addEventListener("click", closeAdminPanelModal);
-adminPanelModal.addEventListener("click", (e)=>{ if(e.target===adminPanelModal) closeAdminPanelModal(); });
-
-saveProductBtn.addEventListener("click", saveProduct);
-clearFormBtn.addEventListener("click", clearForm);
 </script>
+
 </body>
 </html>
